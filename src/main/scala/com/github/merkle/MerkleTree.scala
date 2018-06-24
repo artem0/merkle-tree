@@ -11,21 +11,21 @@ import java.security.MessageDigest
   */
 case class MerkleTree(hash: Block,
                       left: Option[MerkleTree] = Option.empty,
-                      right: Option[MerkleTree] = Option.empty) {
-
-
-}
+                      right: Option[MerkleTree] = Option.empty)
 
 object MerkleTree {
 
-  def inorderRecursive(tree: MerkleTree) {
-    tree match {
-      case MerkleTree(v, None, None) => print(s" Leaf ${blockToHex(v)}")
-      case MerkleTree(v, leftBranch, rightBranch) =>
-        inorderRecursive(leftBranch.head)
-        print(s" Root ${blockToHex(v)}")
-        inorderRecursive(rightBranch.get)
-    }
+  /**
+    * Merge results for hashes of two blocks
+    * @param digest target hash function for applying
+    * @param first first block
+    * @param second second block
+    * @param stringOrBytes flag for handling in string/bytes[] form
+    * @return resulted block
+    */
+  def merge(digest: Digest, first: Block, second: Block, stringOrBytes: Boolean): Block = {
+    val neighborHashesUnion = blockToHex(first ++ second)
+    digest(neighborHashesUnion.getBytes())
   }
 
   /**
@@ -54,5 +54,19 @@ object MerkleTree {
     * @return hash like HEX string
     */
   def blockToHex(hash: Block): String = hash.map("%02x".format(_)).mkString
+
+  /**
+    * Inorder recursive traverse
+    * @param tree Merkle tree
+    */
+  def inorderRecursive(tree: MerkleTree) {
+    tree match {
+      case MerkleTree(v, None, None) => print(s" Leaf ${blockToHex(v)}")
+      case MerkleTree(v, leftBranch, rightBranch) =>
+        inorderRecursive(leftBranch.head)
+        print(s" Root ${blockToHex(v)}")
+        inorderRecursive(rightBranch.get)
+    }
+  }
 
 }
