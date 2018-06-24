@@ -7,4 +7,7 @@ package object merkle {
 
   /** Type for mapping block to a result of hash digest. **/
   type Digest = Block => Block
+
+  /** Plain string to bytes array **/
+  implicit def stringToBytesArray(string: String): Block = string.getBytes()
 }
