@@ -15,6 +15,21 @@ case class MerkleTree(hash: Block,
 
 object MerkleTree {
 
+
+  def apply(data: Seq[Block], digest: Digest): MerkleTree = {
+    var trees = data.map(block => MerkleTree(digest(block)))
+
+    while (trees.length > 1) {
+      trees = trees.grouped(2).map { p =>
+        val left = p(0)
+        val right = p(1)
+        MerkleTree(hash = merge(digest, left.hash, right.hash),
+          left = Option(left), right = Option(right))
+      }.toSeq
+    }
+    trees.head
+  }
+
   /**
     * Merge results for hashes of two blocks
     *
@@ -26,7 +41,7 @@ object MerkleTree {
     */
   def merge(digest: Digest, first: Block, second: Block,
             stringDigest: Option[Boolean] = Option(true)): Block = {
-    if (!stringDigest.getOrElse(false)) {
+    if (stringDigest.getOrElse(false)) {
       val neighborHashesUnion = blockToHex(first ++ second)
       digest(neighborHashesUnion.getBytes())
     } else digest(first ++ second)
