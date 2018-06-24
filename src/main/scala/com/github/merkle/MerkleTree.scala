@@ -17,9 +17,10 @@ object MerkleTree {
 
   /**
     * Merge results for hashes of two blocks
-    * @param digest target hash function for applying
-    * @param first first block
-    * @param second second block
+    *
+    * @param digest       target hash function for applying
+    * @param first        first block
+    * @param second       second block
     * @param stringDigest flag for handling in string/bytes[] form
     * @return resulted block
     */
@@ -33,7 +34,8 @@ object MerkleTree {
 
   /**
     * Applying message digest algorithm to byte sequences
-    * @param bytes byte sequences
+    *
+    * @param bytes        byte sequences
     * @param hashFunction hash function
     * @return digests
     */
@@ -43,7 +45,8 @@ object MerkleTree {
 
   /**
     * Applying message digest algorithm to string value
-    * @param string string value
+    *
+    * @param string       string value
     * @param hashFunction hash function
     * @return digests
     */
@@ -53,6 +56,7 @@ object MerkleTree {
 
   /**
     * Convert block to HEX represented string
+    *
     * @param hash hash value
     * @return hash like HEX string
     */
@@ -60,6 +64,7 @@ object MerkleTree {
 
   /**
     * Inorder recursive traverse
+    *
     * @param tree Merkle tree
     */
   def inorderRecursive(tree: MerkleTree) {
