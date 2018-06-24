@@ -19,4 +19,34 @@ object TreeTraverse {
         inorderRecursive(rightBranch.get)
     }
   }
+
+  /**
+    * Preorder recursive traverse
+    *
+    * @param tree Merkle tree
+    */
+  def preorderRecursive(tree: MerkleTree) {
+    tree match {
+      case MerkleTree(v, None, None) => print(s" Leaf ${blockToHex(v)}")
+      case MerkleTree(v, leftBranch, rightBranch) =>
+        print(s" Root ${blockToHex(v)}")
+        inorderRecursive(leftBranch.head)
+        inorderRecursive(rightBranch.get)
+    }
+  }
+
+  /**
+    * Postorder recursive traverse
+    *
+    * @param tree Merkle tree
+    */
+  def postorderRecursive(tree: MerkleTree) {
+    tree match {
+      case MerkleTree(v, None, None) => print(s" Leaf ${blockToHex(v)}")
+      case MerkleTree(v, leftBranch, rightBranch) =>
+        inorderRecursive(leftBranch.head)
+        inorderRecursive(rightBranch.get)
+        print(s" Root ${blockToHex(v)}")
+    }
+  }
 }
