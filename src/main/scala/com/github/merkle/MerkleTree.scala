@@ -1,5 +1,7 @@
 package com.github.merkle
 
+import java.security.MessageDigest
+
 /**
   * Binary immutable tree of hashes
   *
@@ -26,5 +28,31 @@ object MerkleTree {
     }
   }
 
+  /**
+    * Applying message digest algorithm to byte sequences
+    * @param bytes byte sequences
+    * @param hashFunction hash function
+    * @return digests
+    */
+  def digestFunction(bytes: Array[Byte], hashFunction: String): Block = {
+    MessageDigest.getInstance(hashFunction).digest(bytes)
+  }
+
+  /**
+    * Applying message digest algorithm to string value
+    * @param string string value
+    * @param hashFunction hash function
+    * @return digests
+    */
+  def digestFunction(string: String, hashFunction: String): Block = {
+    digestFunction(string.getBytes("UTF-8"), hashFunction)
+  }
+
+  /**
+    * Convert block to HEX represented string
+    * @param hash hash value
+    * @return hash like HEX string
+    */
   def blockToHex(hash: Block): String = hash.map("%02x".format(_)).mkString
+
 }
