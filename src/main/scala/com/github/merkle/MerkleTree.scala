@@ -20,12 +20,15 @@ object MerkleTree {
     * @param digest target hash function for applying
     * @param first first block
     * @param second second block
-    * @param stringOrBytes flag for handling in string/bytes[] form
+    * @param stringDigest flag for handling in string/bytes[] form
     * @return resulted block
     */
-  def merge(digest: Digest, first: Block, second: Block, stringOrBytes: Boolean): Block = {
-    val neighborHashesUnion = blockToHex(first ++ second)
-    digest(neighborHashesUnion.getBytes())
+  def merge(digest: Digest, first: Block, second: Block,
+            stringDigest: Option[Boolean] = Option(true)): Block = {
+    if (!stringDigest.getOrElse(false)) {
+      val neighborHashesUnion = blockToHex(first ++ second)
+      digest(neighborHashesUnion.getBytes())
+    } else digest(first ++ second)
   }
 
   /**
