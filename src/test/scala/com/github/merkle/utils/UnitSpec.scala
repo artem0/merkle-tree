@@ -1,4 +1,4 @@
-package com.github.merkle
+package com.github.merkle.utils
 
 import org.scalatest._
 
