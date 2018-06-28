@@ -14,9 +14,9 @@ object TreeTraverse {
     tree match {
       case MerkleTree(v, None, None) => print(s" Leaf ${blockToHex(v)}")
       case MerkleTree(v, leftBranch, rightBranch) =>
-        inorderRecursive(leftBranch.head)
+        if (leftBranch.isDefined) inorderRecursive(leftBranch.head)
         print(s" Root ${blockToHex(v)}")
-        if(rightBranch.isDefined) inorderRecursive(rightBranch.head)
+        if (rightBranch.isDefined) inorderRecursive(rightBranch.head)
     }
   }
 
@@ -30,8 +30,8 @@ object TreeTraverse {
       case MerkleTree(v, None, None) => print(s" Leaf ${blockToHex(v)}")
       case MerkleTree(v, leftBranch, rightBranch) =>
         print(s" Root ${blockToHex(v)}")
-        preorderRecursive(leftBranch.head)
-        preorderRecursive(rightBranch.get)
+        if (leftBranch.isDefined) preorderRecursive(leftBranch.head)
+        if (rightBranch.isDefined) inorderRecursive(rightBranch.head)
     }
   }
 
@@ -44,8 +44,8 @@ object TreeTraverse {
     tree match {
       case MerkleTree(v, None, None) => print(s" Leaf ${blockToHex(v)}")
       case MerkleTree(v, leftBranch, rightBranch) =>
-        postorderRecursive(leftBranch.head)
-        postorderRecursive(rightBranch.get)
+        if (leftBranch.isDefined) postorderRecursive(leftBranch.head)
+        if (rightBranch.isDefined) inorderRecursive(rightBranch.head)
         print(s" Root ${blockToHex(v)}")
     }
   }
