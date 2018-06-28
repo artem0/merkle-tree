@@ -13,6 +13,38 @@ class MerkleTreeMd5Spec extends UnitSpec {
     first.hash should be(second.hash)
   }
 
+  it should "have equals root nodes: with odd leafs number" in {
+    val blocks: Seq[Array[Byte]] = Seq("AB", "RA", "CA", "DA", "BRA")
+    val first = MerkleTree.apply(blocks, md5Digest(_))
+    val second = MerkleTree.apply(blocks, md5Digest(_))
+
+    first.hash should be(second.hash)
+  }
+
+  it should "have different root nodes: with odd leafs number" in {
+    val firstInput: Seq[Array[Byte]] = Seq("AB", "RA", "CA", "DA", "BRA")
+    val secondInput: Seq[Array[Byte]] = Seq("AB", "RA", "CA", "DA", "BRA!")
+    val first = MerkleTree.apply(firstInput, md5Digest(_))
+    val second = MerkleTree.apply(secondInput, md5Digest(_))
+
+    first.hash should not be second.hash
+  }
+
+  it should "have equals root nodes: input sequence of bytes with odd leafs number" in {
+    val blocks: Seq[Array[Byte]] = Seq(
+      Array[Byte](55, 33, 22, 13),
+      Array[Byte](42, 85, 45, 87),
+      Array[Byte](83, 97, 10, 121),
+      Array[Byte](25, 4, 104, 126),
+      Array[Byte](28, 93, 54, 15)
+    )
+
+    val first = MerkleTree.apply(blocks, md5Digest(_))
+    val second = MerkleTree.apply(blocks, md5Digest(_))
+
+    first.hash should be(second.hash)
+  }
+
   it should "have equals root nodes: input sequence of bytes" in {
     val blocks: Seq[Array[Byte]] = Seq(
       Array[Byte](0, 1, 2, 3),
