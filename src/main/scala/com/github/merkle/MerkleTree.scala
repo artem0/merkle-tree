@@ -51,7 +51,7 @@ object MerkleTree {
   def merge(digest: Digest, left: Block, right: Option[Block],
             stringDigest: Option[Boolean] = Option(true)): Block = {
     if (stringDigest.getOrElse(false)) {
-      val neighborHashesUnion = blockToHex(left ++ right.getOrElse(emptyByteArray))
+      val neighborHashesUnion = bytes2Hex(left ++ right.getOrElse(emptyByteArray))
       digest(neighborHashesUnion.getBytes())
     } else digest(left ++ right.getOrElse(emptyByteArray))
   }
@@ -84,7 +84,17 @@ object MerkleTree {
     * @param hash hash value
     * @return hash like HEX string
     */
-  def blockToHex(hash: Block): String = hash.map("%02x".format(_)).mkString
+  def bytes2Hex(hash: Block): String = hash.map("%02x".format(_)).mkString
+
+  /**
+    * Convert HEX represented string to byte sequences
+    * @param hex input HEX string
+    * @return byte sequences
+    */
+  def hex2bytes(hex: String): Array[Byte] = {
+    hex.replaceAll("[^0-9A-Fa-f]", "")
+      .sliding(2, 2).toArray.map(Integer.parseInt(_, 16).toByte)
+  }
 
   /** Plain string to bytes array **/
   implicit def stringToBytesArray(string: String): Block = string.getBytes()
