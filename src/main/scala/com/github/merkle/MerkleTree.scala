@@ -46,8 +46,6 @@ object MerkleTree {
     } else digest(left ++ right.getOrElse(emptyByteArray))
   }
 
-  private [this] val emptyByteArray = Array[Byte]()
-
   /**
     * Applying message digest algorithm to byte sequences
     *
@@ -78,4 +76,10 @@ object MerkleTree {
     */
   def blockToHex(hash: Block): String = hash.map("%02x".format(_)).mkString
 
+  /** Plain string to bytes array **/
+  implicit def stringToBytesArray(string: String): Block = string.getBytes()
+
+
+  /** The alias for an empty byte array**/
+  private [this] val emptyByteArray = Array[Byte]()
 }
