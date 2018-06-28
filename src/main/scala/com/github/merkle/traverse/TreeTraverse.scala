@@ -16,7 +16,7 @@ object TreeTraverse {
       case MerkleTree(v, leftBranch, rightBranch) =>
         inorderRecursive(leftBranch.head)
         print(s" Root ${blockToHex(v)}")
-        inorderRecursive(rightBranch.get)
+        if(rightBranch.isDefined) inorderRecursive(rightBranch.head)
     }
   }
 

@@ -15,16 +15,15 @@ case class MerkleTree(hash: Block,
 
 object MerkleTree {
 
-
   def apply(data: Seq[Block], digest: Digest): MerkleTree = {
     var trees = data.map(block => MerkleTree(digest(block)))
 
     while (trees.length > 1) {
       trees = trees.grouped(2).map { p =>
         val left = p(0)
-        val right = p(1)
-        MerkleTree(hash = merge(digest, left.hash, right.hash),
-          left = Option(left), right = Option(right))
+        val right = if (p.length > 1) Option(p(1)) else None
+        MerkleTree(hash = merge(digest, left.hash, right.map(_.hash)),
+          left = Option(left), right)
       }.toSeq
     }
     trees.head
@@ -34,18 +33,20 @@ object MerkleTree {
     * Merge results for hashes of two blocks
     *
     * @param digest       target hash function for applying
-    * @param first        first block
-    * @param second       second block
+    * @param left         left block
+    * @param right        right block - Option on case for odd number of items, right is hanging leaf
     * @param stringDigest flag for handling in string/bytes[] form
     * @return resulted block
     */
-  def merge(digest: Digest, first: Block, second: Block,
+  def merge(digest: Digest, left: Block, right: Option[Block],
             stringDigest: Option[Boolean] = Option(true)): Block = {
     if (stringDigest.getOrElse(false)) {
-      val neighborHashesUnion = blockToHex(first ++ second)
+      val neighborHashesUnion = blockToHex(left ++ right.getOrElse(emptyByteArray))
       digest(neighborHashesUnion.getBytes())
-    } else digest(first ++ second)
+    } else digest(left ++ right.getOrElse(emptyByteArray))
   }
+
+  private [this] val emptyByteArray = Array[Byte]()
 
   /**
     * Applying message digest algorithm to byte sequences
