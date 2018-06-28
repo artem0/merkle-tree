@@ -29,6 +29,16 @@ object MerkleTree {
     trees.head
   }
 
+  /** Apply for arbitrary digest funtion
+    *
+    * {{{
+    *  val tree = MerkleTree.apply(blocks, "SHA-384")
+    * }}}
+  */
+  def apply(data: Seq[Block], digestFunctionName: String): MerkleTree = {
+    apply(data, digestFunction(digestFunctionName)(_))
+  }
+
   /**
     * Merge results for hashes of two blocks
     *
@@ -53,7 +63,7 @@ object MerkleTree {
     * @param hashFunction hash function
     * @return digests
     */
-  def digestFunction(bytes: Array[Byte], hashFunction: String): Block = {
+  def digestFunction(hashFunction: String)(bytes: Array[Byte]): Block = {
     MessageDigest.getInstance(hashFunction).digest(bytes)
   }
 
@@ -65,7 +75,7 @@ object MerkleTree {
     * @return digests
     */
   def digestFunction(string: String, hashFunction: String): Block = {
-    digestFunction(string.getBytes("UTF-8"), hashFunction)
+    digestFunction(hashFunction)(string.getBytes("UTF-8"))
   }
 
   /**
