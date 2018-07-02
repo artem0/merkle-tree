@@ -9,20 +9,23 @@ import java.security.MessageDigest
   * @param left  left subtree
   * @param right right subtree
   */
-case class MerkleTree(hash: Block,
+case class MerkleTree(hash: BlockView,
                       left: Option[MerkleTree] = Option.empty,
                       right: Option[MerkleTree] = Option.empty)
 
 object MerkleTree {
 
-  def apply(data: Seq[Block], digest: Digest): MerkleTree = {
-    var trees = data.map(block => MerkleTree(digest(block)))
+  def apply(data: Seq[BlockView], digest: Digest): MerkleTree = {
+    var trees = data.map {
+      case Left(block) => MerkleTree(Left(digest(block)))
+      case Right(hashedString) => MerkleTree(Left(hex2bytes(hashedString)))
+    }
 
     while (trees.length > 1) {
       trees = trees.grouped(2).map { p =>
         val left = p(0)
         val right = if (p.length > 1) Option(p(1)) else None
-        MerkleTree(hash = merge(digest, left.hash, right.map(_.hash)),
+        MerkleTree(Left(merge(digest, left.hash, right.map(_.hash))),
           left = Option(left), right)
       }.toSeq
     }
@@ -35,7 +38,7 @@ object MerkleTree {
     *  val tree = MerkleTree.apply(blocks, "SHA-384")
     * }}}
   */
-  def apply(data: Seq[Block], digestFunctionName: String): MerkleTree = {
+  def apply(data: Seq[BlockView], digestFunctionName: String): MerkleTree = {
     apply(data, digestFunction(digestFunctionName)(_))
   }
 
@@ -43,17 +46,21 @@ object MerkleTree {
     * Merge results for hashes of two blocks
     *
     * @param digest       target hash function for applying
-    * @param left         left block
-    * @param right        right block - Option on case for odd number of items, right is hanging leaf
-    * @param stringDigest flag for handling in string/bytes[] form
+    * @param first         left block
+    * @param second        right block - Option on case for odd number of items, right is hanging leaf
     * @return resulted block
     */
-  def merge(digest: Digest, left: Block, right: Option[Block],
-            stringDigest: Option[Boolean] = Option(true)): Block = {
-    if (stringDigest.getOrElse(false)) {
-      val neighborHashesUnion = bytes2Hex(left ++ right.getOrElse(emptyByteArray))
-      digest(neighborHashesUnion.getBytes())
-    } else digest(left ++ right.getOrElse(emptyByteArray))
+  def merge(digest: Digest, first: BlockView, second: Option[BlockView]): Block = {
+    (first.isLeft, second.getOrElse(Right(emptyByteArray)).isLeft) match {
+      case (true, true) => {
+        val neighborHashesUnion = bytes2Hex(first.left.get ++ second.map(_.left.get).getOrElse(emptyByteArray))
+        digest(neighborHashesUnion.getBytes())
+      }
+      case (true, false) => {
+        if (second.isDefined) digest(bytes2Hex(first.left.get) + second.get.right.get)
+        else digest(bytes2Hex(first.left.get))
+      }
+    }
   }
 
   /**
