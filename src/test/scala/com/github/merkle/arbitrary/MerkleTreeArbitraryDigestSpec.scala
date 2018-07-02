@@ -12,7 +12,7 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     val first = MerkleTree.apply(blocks, digest)
     val second = MerkleTree.apply(blocks, digest)
 
-    first.hash.left.get should be(second.hash.left.get)
+    getRootValue(first) should be(getRootValue(second))
   }
 
   it should "have equals root nodes: with odd leafs number" in {
@@ -21,7 +21,7 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     val second = MerkleTree.apply(blocks, digest)
     val first = MerkleTree.apply(blocks, digest)
 
-    first.hash.left.get should be(second.hash.left.get)
+    getRootValue(first) should be(getRootValue(second))
   }
 
   it should "have different root nodes: with odd leafs number" in {
@@ -31,7 +31,7 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     val first = MerkleTree.apply(firstInput, digest)
     val second = MerkleTree.apply(secondInput, digest)
 
-    first.hash.left.get should not be second.hash.left.get
+    getRootValue(first) should not be getRootValue(second)
   }
 
   it should "have equals root nodes: input sequence of bytes with odd leafs number" in {
@@ -47,7 +47,7 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     val first = MerkleTree.apply(blocks, digest)
     val second = MerkleTree.apply(blocks, digest)
 
-    first.hash.left.get should be(second.hash.left.get)
+    getRootValue(first) should be(getRootValue(second))
   }
 
   it should "have equals root nodes: input sequence of bytes" in {
@@ -62,7 +62,7 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     val first = MerkleTree.apply(blocks, digest)
     val second = MerkleTree.apply(blocks, digest)
 
-    first.hash.left.get should be(second.hash.left.get)
+    getRootValue(first) should be(getRootValue(second))
   }
 
   it should "have different root nodes" in {
@@ -73,7 +73,7 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     val first = MerkleTree.apply(firstInput, digest)
     val second = MerkleTree.apply(secondInput, digest)
 
-    first.hash.left.get should not be second.hash.left.get
+    getRootValue(first) should not be getRootValue(second)
   }
 
 }

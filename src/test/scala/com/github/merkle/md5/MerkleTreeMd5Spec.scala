@@ -12,7 +12,7 @@ class MerkleTreeMd5Spec extends UnitSpec {
     val first = MerkleTree.apply(blocks, md5Digest(_))
     val second = MerkleTree.apply(blocks, md5Digest(_))
 
-    first.hash.left.get should be(second.hash.left.get)
+    getRootValue(first) should be(getRootValue(second))
   }
 
   it should "have equals root nodes: with odd leafs number" in {
@@ -20,7 +20,7 @@ class MerkleTreeMd5Spec extends UnitSpec {
     val first = MerkleTree.apply(blocks, md5Digest(_))
     val second = MerkleTree.apply(blocks, md5Digest(_))
 
-    first.hash.left.get should be(second.hash.left.get)
+    getRootValue(first) should be(getRootValue(second))
   }
 
   it should "have different root nodes: with odd leafs number" in {
@@ -29,7 +29,7 @@ class MerkleTreeMd5Spec extends UnitSpec {
     val first = MerkleTree.apply(firstInput, md5Digest(_))
     val second = MerkleTree.apply(secondInput, md5Digest(_))
 
-    first.hash.left.get should not be second.hash.left.get
+    getRootValue(first) should not be getRootValue(second)
   }
 
   it should "have equals root nodes: input sequence of bytes with odd leafs number" in {
@@ -44,7 +44,7 @@ class MerkleTreeMd5Spec extends UnitSpec {
     val first = MerkleTree.apply(blocks, md5Digest(_))
     val second = MerkleTree.apply(blocks, md5Digest(_))
 
-    first.hash.left.get should be(second.hash.left.get)
+    getRootValue(first) should be(getRootValue(second))
   }
 
   it should "have equals root nodes: input sequence of bytes" in {
@@ -58,7 +58,7 @@ class MerkleTreeMd5Spec extends UnitSpec {
     val first = MerkleTree.apply(blocks, md5Digest(_))
     val second = MerkleTree.apply(blocks, md5Digest(_))
 
-    first.hash.left.get should be(second.hash.left.get)
+    getRootValue(first) should be(getRootValue(second))
   }
 
   it should "have different root nodes" in {
@@ -67,7 +67,7 @@ class MerkleTreeMd5Spec extends UnitSpec {
     val first = MerkleTree.apply(firstInput, md5Digest(_))
     val second = MerkleTree.apply(secondInput, md5Digest(_))
 
-    first.hash.left.get should not be second.hash.left.get
+    getRootValue(first) should not be getRootValue(second)
   }
 
   it should "have different root nodes: input sequence of bytes" in {
@@ -88,7 +88,7 @@ class MerkleTreeMd5Spec extends UnitSpec {
     val first = MerkleTree.apply(firstInput, md5Digest(_))
     val second = MerkleTree.apply(secondInput, md5Digest(_))
 
-    first.hash.left.get should not be second.hash.left.get
+    getRootValue(first) should not be getRootValue(second)
   }
 
   it should "have equals right root nodes" in {
