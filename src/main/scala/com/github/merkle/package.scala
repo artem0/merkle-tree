@@ -7,4 +7,6 @@ package object merkle {
 
   /** Type for mapping block to a result of hash digest. **/
   type Digest = Block => Block
+
+  type BlockView = Either[Block, String]
 }

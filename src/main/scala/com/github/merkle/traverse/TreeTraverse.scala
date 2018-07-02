@@ -12,10 +12,10 @@ object TreeTraverse {
     */
   def inorderRecursive(tree: MerkleTree) {
     tree match {
-      case MerkleTree(v, None, None) => print(s" Leaf ${bytes2Hex(v)}")
+      case MerkleTree(v, None, None) => print(s" Leaf ${bytes2Hex(v.left.get)}")
       case MerkleTree(v, leftBranch, rightBranch) =>
         if (leftBranch.isDefined) inorderRecursive(leftBranch.head)
-        print(s" Root ${bytes2Hex(v)}")
+        print(s" Root ${bytes2Hex(v.left.get)}")
         if (rightBranch.isDefined) inorderRecursive(rightBranch.head)
     }
   }
@@ -27,9 +27,9 @@ object TreeTraverse {
     */
   def preorderRecursive(tree: MerkleTree) {
     tree match {
-      case MerkleTree(v, None, None) => print(s" Leaf ${bytes2Hex(v)}")
+      case MerkleTree(v, None, None) => print(s" Leaf ${bytes2Hex(v.left.get)}")
       case MerkleTree(v, leftBranch, rightBranch) =>
-        print(s" Root ${bytes2Hex(v)}")
+        print(s" Root ${bytes2Hex(v.left.get)}")
         if (leftBranch.isDefined) preorderRecursive(leftBranch.head)
         if (rightBranch.isDefined) inorderRecursive(rightBranch.head)
     }
@@ -42,11 +42,11 @@ object TreeTraverse {
     */
   def postorderRecursive(tree: MerkleTree) {
     tree match {
-      case MerkleTree(v, None, None) => print(s" Leaf ${bytes2Hex(v)}")
+      case MerkleTree(v, None, None) => print(s" Leaf ${bytes2Hex(v.left.get)}")
       case MerkleTree(v, leftBranch, rightBranch) =>
         if (leftBranch.isDefined) postorderRecursive(leftBranch.head)
         if (rightBranch.isDefined) inorderRecursive(rightBranch.head)
-        print(s" Root ${bytes2Hex(v)}")
+        print(s" Root ${bytes2Hex(v.left.get)}")
     }
   }
 }
