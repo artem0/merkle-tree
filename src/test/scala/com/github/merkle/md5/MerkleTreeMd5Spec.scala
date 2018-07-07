@@ -11,8 +11,8 @@ class MerkleTreeMd5Spec extends UnitSpec {
     val blocks: Seq[BlockView] = Seq(
       leaf("1", "MD5"),
       "c81e728d9d4c2f636f067f89cc14862c",
-      "3".getBytes(),
-      "4".getBytes()
+      "3" getBytes,
+      "4" getBytes
     )
 
     val first = MerkleTree(blocks, md5Digest(_))

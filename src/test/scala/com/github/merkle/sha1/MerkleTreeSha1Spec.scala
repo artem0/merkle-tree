@@ -24,11 +24,11 @@ class MerkleTreeSha1Spec extends UnitSpec {
 
   it should "have equals root nodes: with odd leafs number" in {
     val blocks: Seq[BlockView] = Seq(
-      "AB".getBytes(),
-      "RA".getBytes(),
-      "CA".getBytes(),
-      "DA".getBytes(),
-      "BRA".getBytes()
+      "AB" getBytes,
+      "RA" getBytes,
+      "CA" getBytes,
+      "DA" getBytes,
+      "BRA" getBytes
     )
 
     val first = MerkleTree(blocks, sha1Digest(_))
@@ -39,19 +39,19 @@ class MerkleTreeSha1Spec extends UnitSpec {
 
   it should "have different root nodes: with odd leafs number" in {
     val firstInput: Seq[BlockView] = Seq(
-      "AB".getBytes(),
-      "RA".getBytes(),
-      "CA".getBytes(),
-      "DA".getBytes(),
-      "BRA".getBytes()
+      "AB" getBytes,
+      "RA" getBytes,
+      "CA" getBytes,
+      "DA" getBytes,
+      "BRA" getBytes
     )
 
     val secondInput: Seq[BlockView] = Seq(
-      "AB".getBytes(),
-      "RA".getBytes(),
-      "CA".getBytes(),
-      "DA".getBytes(),
-      "BRA!".getBytes()
+      "AB" getBytes,
+      "RA" getBytes,
+      "CA" getBytes,
+      "DA" getBytes,
+      "BRA!" getBytes
     )
     val first = MerkleTree(firstInput, sha1Digest(_))
     val second = MerkleTree(secondInput, sha1Digest(_))
@@ -90,17 +90,17 @@ class MerkleTreeSha1Spec extends UnitSpec {
 
   it should "have different root nodes" in {
     val firstInput: Seq[BlockView] = Seq(
-      "1".getBytes(),
-      "2".getBytes(),
-      "3".getBytes(),
-      "4".getBytes()
+      "1" getBytes,
+      "2" getBytes,
+      "3" getBytes,
+      "4" getBytes
     )
 
     val secondInput: Seq[BlockView] = Seq(
-      "1".getBytes(),
-      "2".getBytes(),
-      "3".getBytes(),
-      "5".getBytes()
+      "1" getBytes,
+      "2" getBytes,
+      "3" getBytes,
+      "5" getBytes
     )
 
     val first = MerkleTree(firstInput, sha1Digest(_))

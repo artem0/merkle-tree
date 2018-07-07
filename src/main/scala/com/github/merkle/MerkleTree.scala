@@ -2,8 +2,6 @@ package com.github.merkle
 
 import java.security.MessageDigest
 
-import com.github.merkle.MerkleTree.digestFunction
-
 /**
   * Binary immutable tree of hashes
   *
@@ -58,14 +56,12 @@ object MerkleTree {
     */
   def merge(digest: Digest, first: BlockView, second: Option[BlockView]): Block = {
     (first.isLeft, second.getOrElse(Right(emptyByteArray)).isLeft) match {
-      case (true, true) => {
+      case (true, true) =>
         val neighborHashesUnion = bytes2Hex(first.left.get ++ second.map(_.left.get).getOrElse(emptyByteArray))
-        digest(neighborHashesUnion.getBytes())
-      }
-      case (true, false) => {
+        digest(neighborHashesUnion getBytes)
+      case (true, false) =>
         if (second.isDefined) digest(bytes2Hex(first.left.get) + second.get.right.get)
         else digest(bytes2Hex(first.left.get))
-      }
     }
   }
 
@@ -110,7 +106,7 @@ object MerkleTree {
   }
 
   /** Plain string to bytes array **/
-  implicit def stringToBytesArray(string: String): Block = string.getBytes()
+  implicit def stringToBytesArray(string: String): Block = string getBytes
 
 
   /** The alias for an empty byte array**/
