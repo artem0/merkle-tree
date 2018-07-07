@@ -9,8 +9,8 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
   it should "have equals root nodes" in {
     val blocks: Seq[BlockView] = Seq("Some", "Random", "String")
     val digest = "SHA-224"
-    val first = MerkleTree.apply(blocks, digest)
-    val second = MerkleTree.apply(blocks, digest)
+    val first = MerkleTree(blocks, digest)
+    val second = MerkleTree(blocks, digest)
 
     getRootValue(first) should be(getRootValue(second))
   }
@@ -18,8 +18,8 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
   it should "have equals root nodes: with odd leafs number" in {
     val blocks: Seq[BlockView] = Seq("AB", "RA", "CA", "DA", "BRA")
     val digest = "SHA-256"
-    val second = MerkleTree.apply(blocks, digest)
-    val first = MerkleTree.apply(blocks, digest)
+    val second = MerkleTree(blocks, digest)
+    val first = MerkleTree(blocks, digest)
 
     getRootValue(first) should be(getRootValue(second))
   }
@@ -28,8 +28,8 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     val firstInput: Seq[BlockView] = Seq("AB11", "RA22", "CA33", "DA44", "BRA55")
     val secondInput: Seq[BlockView] = Seq("AB11", "RA22", "CA33", "DA44", "BRA55!!")
     val digest = "SHA-384"
-    val first = MerkleTree.apply(firstInput, digest)
-    val second = MerkleTree.apply(secondInput, digest)
+    val first = MerkleTree(firstInput, digest)
+    val second = MerkleTree(secondInput, digest)
 
     getRootValue(first) should not be getRootValue(second)
   }
@@ -44,8 +44,8 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     )
 
     val digest = "SHA-512"
-    val first = MerkleTree.apply(blocks, digest)
-    val second = MerkleTree.apply(blocks, digest)
+    val first = MerkleTree(blocks, digest)
+    val second = MerkleTree(blocks, digest)
 
     getRootValue(first) should be(getRootValue(second))
   }
@@ -59,8 +59,8 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     )
 
     val digest = "SHA-512"
-    val first = MerkleTree.apply(blocks, digest)
-    val second = MerkleTree.apply(blocks, digest)
+    val first = MerkleTree(blocks, digest)
+    val second = MerkleTree(blocks, digest)
 
     getRootValue(first) should be(getRootValue(second))
   }
@@ -70,8 +70,8 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     val secondInput: Seq[BlockView] =  Seq("Ab", "ra", "ca", "da", "bra!")
     val digest = "SHA-384"
 
-    val first = MerkleTree.apply(firstInput, digest)
-    val second = MerkleTree.apply(secondInput, digest)
+    val first = MerkleTree(firstInput, digest)
+    val second = MerkleTree(secondInput, digest)
 
     getRootValue(first) should not be getRootValue(second)
   }

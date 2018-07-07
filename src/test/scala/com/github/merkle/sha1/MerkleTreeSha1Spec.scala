@@ -10,16 +10,16 @@ class MerkleTreeSha1Spec extends UnitSpec {
 
   it should "have equals root nodes" in {
     val blocks: Seq[BlockView] = Seq("1", "2", "3", "4")
-    val first = MerkleTree.apply(blocks, sha1Digest(_))
-    val second = MerkleTree.apply(blocks, sha1Digest(_))
+    val first = MerkleTree(blocks, sha1Digest(_))
+    val second = MerkleTree(blocks, sha1Digest(_))
 
     getRootValue(first) should be(getRootValue(second))
   }
 
   it should "have equals root nodes: with odd leafs number" in {
     val blocks: Seq[BlockView] = Seq("AB", "RA", "CA", "DA", "BRA")
-    val first = MerkleTree.apply(blocks, sha1Digest(_))
-    val second = MerkleTree.apply(blocks, sha1Digest(_))
+    val first = MerkleTree(blocks, sha1Digest(_))
+    val second = MerkleTree(blocks, sha1Digest(_))
 
     getRootValue(first) should be(getRootValue(second))
   }
@@ -27,8 +27,8 @@ class MerkleTreeSha1Spec extends UnitSpec {
   it should "have different root nodes: with odd leafs number" in {
     val firstInput: Seq[BlockView] = Seq("AB", "RA", "CA", "DA", "BRA")
     val secondInput: Seq[BlockView] = Seq("AB", "RA", "CA", "DA", "BRA!")
-    val first = MerkleTree.apply(firstInput, sha1Digest(_))
-    val second = MerkleTree.apply(secondInput, sha1Digest(_))
+    val first = MerkleTree(firstInput, sha1Digest(_))
+    val second = MerkleTree(secondInput, sha1Digest(_))
 
     getRootValue(first) should not be getRootValue(second)
   }
@@ -42,8 +42,8 @@ class MerkleTreeSha1Spec extends UnitSpec {
       Array[Byte](28, 93, 54, 15)
     )
 
-    val first = MerkleTree.apply(blocks, sha1Digest(_))
-    val second = MerkleTree.apply(blocks, sha1Digest(_))
+    val first = MerkleTree(blocks, sha1Digest(_))
+    val second = MerkleTree(blocks, sha1Digest(_))
 
     getRootValue(first) should be(getRootValue(second))
   }
@@ -56,8 +56,8 @@ class MerkleTreeSha1Spec extends UnitSpec {
       Array[Byte](12, 13, 14, 15)
     )
 
-    val first = MerkleTree.apply(blocks, sha1Digest(_))
-    val second = MerkleTree.apply(blocks, sha1Digest(_))
+    val first = MerkleTree(blocks, sha1Digest(_))
+    val second = MerkleTree(blocks, sha1Digest(_))
 
     getRootValue(first) should be(getRootValue(second))
   }
@@ -65,8 +65,8 @@ class MerkleTreeSha1Spec extends UnitSpec {
   it should "have different root nodes" in {
     val firstInput: Seq[BlockView] = Seq("1", "2", "3", "4")
     val secondInput: Seq[BlockView] = Seq("1", "2", "3", "5")
-    val first = MerkleTree.apply(firstInput, sha1Digest(_))
-    val second = MerkleTree.apply(secondInput, sha1Digest(_))
+    val first = MerkleTree(firstInput, sha1Digest(_))
+    val second = MerkleTree(secondInput, sha1Digest(_))
 
     getRootValue(first) should not be getRootValue(second)
   }
@@ -86,16 +86,16 @@ class MerkleTreeSha1Spec extends UnitSpec {
       Array[Byte](12, 13, 14, 16)
     )
 
-    val first = MerkleTree.apply(firstInput, sha1Digest(_))
-    val second = MerkleTree.apply(secondInput, sha1Digest(_))
+    val first = MerkleTree(firstInput, sha1Digest(_))
+    val second = MerkleTree(secondInput, sha1Digest(_))
 
     getRootValue(first) should not be getRootValue(second)
   }
 
   it should "have equals right root nodes" in {
     val blocks: Seq[BlockView] = Seq("AA", "BB", "CC", "DD", "EE", "FF", "GG", "HH")
-    val first = MerkleTree.apply(blocks, sha1Digest(_))
-    val second = MerkleTree.apply(blocks, sha1Digest(_))
+    val first = MerkleTree(blocks, sha1Digest(_))
+    val second = MerkleTree(blocks, sha1Digest(_))
 
     first.right.get.hash.left.get should be(second.right.get.hash.left.get)
   }
@@ -108,8 +108,8 @@ class MerkleTreeSha1Spec extends UnitSpec {
       Array[Byte](12, 13, 14, 15)
     )
 
-    val first = MerkleTree.apply(blocks, sha1Digest(_))
-    val second = MerkleTree.apply(blocks, sha1Digest(_))
+    val first = MerkleTree(blocks, sha1Digest(_))
+    val second = MerkleTree(blocks, sha1Digest(_))
 
     first.right.get.hash.left.get should be(second.right.get.hash.left.get)
   }
@@ -117,8 +117,8 @@ class MerkleTreeSha1Spec extends UnitSpec {
   it should "have different right root nodes" in {
     val firstInput: Seq[BlockView] = Seq("AA", "BB", "CC", "DD")
     val secondInput: Seq[BlockView] = Seq("AA", "BB", "CC", "DE")
-    val first = MerkleTree.apply(firstInput, sha1Digest(_))
-    val second = MerkleTree.apply(secondInput, sha1Digest(_))
+    val first = MerkleTree(firstInput, sha1Digest(_))
+    val second = MerkleTree(secondInput, sha1Digest(_))
 
     first.right.get.hash.left.get should not be second.right.get.hash.left.get
   }
@@ -138,16 +138,16 @@ class MerkleTreeSha1Spec extends UnitSpec {
       Array[Byte](12, 13, 14, 15)
     )
 
-    val first = MerkleTree.apply(firstInput, sha1Digest(_))
-    val second = MerkleTree.apply(secondInput, sha1Digest(_))
+    val first = MerkleTree(firstInput, sha1Digest(_))
+    val second = MerkleTree(secondInput, sha1Digest(_))
 
     first.right.get.hash.left.get should not be second.right.get.hash.left.get
   }
 
   it should "have equals left root nodes" in {
     val blocks: Seq[BlockView] = Seq("AA", "BB", "CC", "DD", "EE", "FF", "GG", "HH")
-    val first = MerkleTree.apply(blocks, sha1Digest(_))
-    val second = MerkleTree.apply(blocks, sha1Digest(_))
+    val first = MerkleTree(blocks, sha1Digest(_))
+    val second = MerkleTree(blocks, sha1Digest(_))
 
     first.left.get.hash.left.get should be(second.left.get.hash.left.get)
   }
@@ -160,8 +160,8 @@ class MerkleTreeSha1Spec extends UnitSpec {
       Array[Byte](12, 13, 14, 15)
     )
 
-    val first = MerkleTree.apply(blocks, sha1Digest(_))
-    val second = MerkleTree.apply(blocks, sha1Digest(_))
+    val first = MerkleTree(blocks, sha1Digest(_))
+    val second = MerkleTree(blocks, sha1Digest(_))
 
     first.left.get.hash.left.get should be(second.left.get.hash.left.get)
   }
@@ -169,8 +169,8 @@ class MerkleTreeSha1Spec extends UnitSpec {
   it should "have different left root nodes" in {
     val firstInput: Seq[BlockView] = Seq("AA", "BB", "CC", "DD")
     val secondInput: Seq[BlockView] = Seq("AA", "BB", "CC", "DE")
-    val first = MerkleTree.apply(firstInput, sha1Digest(_))
-    val second = MerkleTree.apply(secondInput, sha1Digest(_))
+    val first = MerkleTree(firstInput, sha1Digest(_))
+    val second = MerkleTree(secondInput, sha1Digest(_))
 
     first.left.get.hash.left.get should not be second.left.get.hash.left.get
   }
@@ -190,8 +190,8 @@ class MerkleTreeSha1Spec extends UnitSpec {
       Array[Byte](12, 13, 14, 15)
     )
 
-    val first = MerkleTree.apply(firstInput, sha1Digest(_))
-    val second = MerkleTree.apply(secondInput, sha1Digest(_))
+    val first = MerkleTree(firstInput, sha1Digest(_))
+    val second = MerkleTree(secondInput, sha1Digest(_))
 
     first.left.get.hash.left.get should not be second.left.get.hash.left.get
   }
