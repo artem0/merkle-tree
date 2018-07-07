@@ -1,7 +1,12 @@
-## Overview
+## Merkle tree in functional style
 
 Merkle trees are typically implemented as binary trees where each non-leaf node is a hash of the two nodes below it.  
 The leaves can either be the data itself or a hash/signature of the data.
+
+[![Build Status](https://travis-ci.org/arukavytsia/merkle-tree.svg)](https://travis-ci.org/arukavytsia/merkle-tree)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/arukavytsia/merkle-tree/blob/master/LICENSE)
+
+## Overview
 
 <img src="https://i.stack.imgur.com/2Ep7y.png&amp;h=263">
 
