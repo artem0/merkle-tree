@@ -11,7 +11,11 @@ import java.security.MessageDigest
   */
 case class MerkleTree(hash: BlockView,
                       left: Option[MerkleTree] = Option.empty,
-                      right: Option[MerkleTree] = Option.empty)
+                      right: Option[MerkleTree] = Option.empty){
+
+  /** Human readable hash root **/
+  def rootHash: String = MerkleTree.bytes2Hex(hash.left.get)
+}
 
 object MerkleTree {
 

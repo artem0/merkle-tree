@@ -8,7 +8,6 @@ import com.github.merkle.MerkleTree.{bytes2Hex, digestFunction}
   */
 object Conversion {
 
-
   /** Plain string with specified hash unction Leaf **/
   implicit def leaf(plainString: String, hashFunction: String): BlockView = {
     Right(bytes2Hex(digestFunction(plainString, hashFunction)))
