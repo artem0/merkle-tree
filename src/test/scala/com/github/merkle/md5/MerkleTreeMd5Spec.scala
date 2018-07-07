@@ -7,6 +7,46 @@ import com.github.merkle.conversion.Conversion._
 
 class MerkleTreeMd5Spec extends UnitSpec {
 
+  it should "have equals root with plain hashes, string and bytes" in {
+    val blocks: Seq[BlockView] = Seq(
+      leaf("1", "MD5"),
+      "c81e728d9d4c2f636f067f89cc14862c",
+      "3".getBytes(),
+      "4".getBytes()
+    )
+
+    val first = MerkleTree(blocks, md5Digest(_))
+
+    first.rootHash should be("120c93a07a99bce0cb1eee82c4b6cc2e")
+  }
+
+  it should "have equals root with plain hashes" in {
+    val blocks: Seq[BlockView] = Seq(
+      "c4ca4238a0b923820dcc509a6f75849b",
+      "c81e728d9d4c2f636f067f89cc14862c",
+      "eccbc87e4b5ce2fe28308fd9f2a7baf3",
+      "a87ff679a2f3e71d9181a67b7542122c"
+    )
+
+    val first = MerkleTree(blocks, md5Digest(_))
+
+    first.rootHash should be("120c93a07a99bce0cb1eee82c4b6cc2e")
+  }
+
+  it should "have equals root nodes with plain hashes" in {
+    val blocks: Seq[BlockView] = Seq(
+      "4829182CAC1A47976743C58F435FBEB9",
+      "64F92A0A36F0A2D82BD4831CDA67EEA3",
+      "C43E5A6C225B4C7017869B64DCD8CC00",
+      "2E60913F544CCDC368098AC6DD48F8A8"
+    )
+
+    val first = MerkleTree(blocks, md5Digest(_))
+    val second = MerkleTree(blocks, md5Digest(_))
+
+    getRootValue(first) should be(getRootValue(second))
+  }
+
   it should "have equals root nodes" in {
     val blocks: Seq[BlockView] = Seq("1", "2", "3", "4")
     val first = MerkleTree(blocks, md5Digest(_))

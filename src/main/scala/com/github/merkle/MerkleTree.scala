@@ -2,6 +2,8 @@ package com.github.merkle
 
 import java.security.MessageDigest
 
+import com.github.merkle.MerkleTree.digestFunction
+
 /**
   * Binary immutable tree of hashes
   *

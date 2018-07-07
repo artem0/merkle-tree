@@ -7,8 +7,30 @@ import com.github.merkle.conversion.Conversion._
 class MerkleTreeArbitraryDigestSpec extends UnitSpec {
 
   it should "have equals root nodes" in {
-    val blocks: Seq[BlockView] = Seq("Some", "Random", "String")
     val digest = "SHA-224"
+
+    val blocks: Seq[BlockView] = Seq(
+      leaf("Some", digest),
+      leaf("Random", digest),
+      leaf("String", digest)
+    )
+
+    val first = MerkleTree(blocks, digest)
+    val second = MerkleTree(blocks, digest)
+
+    getRootValue(first) should be(getRootValue(second))
+  }
+
+  it should "have equals root nodes with different hashes" in {
+    val digest = "SHA-224"
+    val digest2 = "SHA-256"
+
+    val blocks: Seq[BlockView] = Seq(
+      leaf("Some", digest),
+      leaf("Random", digest2),
+      leaf("String", digest2)
+    )
+
     val first = MerkleTree(blocks, digest)
     val second = MerkleTree(blocks, digest)
 
@@ -16,8 +38,15 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
   }
 
   it should "have equals root nodes: with odd leafs number" in {
-    val blocks: Seq[BlockView] = Seq("AB", "RA", "CA", "DA", "BRA")
     val digest = "SHA-256"
+
+    val blocks: Seq[BlockView] = Seq(
+      leaf("AB", digest), leaf("RA", digest),
+      leaf("CA", digest),
+      leaf("DA", digest),
+      leaf("BRA", digest)
+    )
+
     val second = MerkleTree(blocks, digest)
     val first = MerkleTree(blocks, digest)
 
@@ -25,13 +54,54 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
   }
 
   it should "have different root nodes: with odd leafs number" in {
-    val firstInput: Seq[BlockView] = Seq("AB11", "RA22", "CA33", "DA44", "BRA55")
-    val secondInput: Seq[BlockView] = Seq("AB11", "RA22", "CA33", "DA44", "BRA55!!")
     val digest = "SHA-384"
+
+    val firstInput: Seq[BlockView] = Seq(
+      leaf("AB11",digest),
+      leaf("RA22", digest),
+      leaf("CA33", digest),
+      leaf("DA44", digest),
+      leaf("BRA55", digest)
+    )
+
+    val secondInput: Seq[BlockView] = Seq(
+      leaf("AB11", digest),
+      leaf("RA22", digest),
+      leaf("CA33", digest),
+      leaf("DA44", digest),
+      leaf("BRA55!!", digest)
+    )
+
     val first = MerkleTree(firstInput, digest)
     val second = MerkleTree(secondInput, digest)
 
     getRootValue(first) should not be getRootValue(second)
+  }
+
+  it should "have equals root nodes: with different hashes" in {
+    val digest = "SHA-384"
+    val digest2 = "SHA-256"
+
+    val firstInput: Seq[BlockView] = Seq(
+      leaf("AB11",digest),
+      leaf("RA22", digest),
+      leaf("CA33", digest),
+      leaf("DA44", digest2),
+      leaf("BRA55", digest2)
+    )
+
+    val secondInput: Seq[BlockView] = Seq(
+      leaf("AB11", digest),
+      leaf("RA22", digest),
+      leaf("CA33", digest),
+      leaf("DA44", digest2),
+      leaf("BRA55", digest2)
+    )
+
+    val first = MerkleTree(firstInput, digest)
+    val second = MerkleTree(secondInput, digest)
+
+    getRootValue(first) should be (getRootValue(second))
   }
 
   it should "have equals root nodes: input sequence of bytes with odd leafs number" in {
@@ -66,9 +136,22 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
   }
 
   it should "have different root nodes" in {
-    val firstInput: Seq[BlockView] = Seq("Ab", "ra", "ca", "da", "bra")
-    val secondInput: Seq[BlockView] =  Seq("Ab", "ra", "ca", "da", "bra!")
     val digest = "SHA-384"
+
+    val firstInput: Seq[BlockView] = Seq(
+      leaf("Ab", digest),
+      leaf("ra", digest),
+      leaf("ca", digest),
+      leaf("da", digest),
+      leaf("bra", digest)
+    )
+
+    val secondInput: Seq[BlockView] =  Seq(
+      leaf("Ab", digest),
+      leaf("ra", digest),
+      leaf("ca", digest), leaf("da", digest),
+      leaf("bra!", digest)
+    )
 
     val first = MerkleTree(firstInput, digest)
     val second = MerkleTree(secondInput, digest)

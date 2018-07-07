@@ -9,7 +9,13 @@ import com.github.merkle.conversion.Conversion._
 class MerkleTreeSha1Spec extends UnitSpec {
 
   it should "have equals root nodes" in {
-    val blocks: Seq[BlockView] = Seq("1", "2", "3", "4")
+    val blocks: Seq[BlockView] = Seq(
+      "70de60d2b3187d88ec32b10a6c0bb4ff49bf93b2",
+      "1691b92ff0730332cd199d7a45c977738954440e",
+      "84d5bc2c582af0940cc1fea10391711c80124125",
+      "83a905fd45c503e2b01fa19386465f304ba1975e"
+    )
+
     val first = MerkleTree(blocks, sha1Digest(_))
     val second = MerkleTree(blocks, sha1Digest(_))
 
@@ -17,7 +23,14 @@ class MerkleTreeSha1Spec extends UnitSpec {
   }
 
   it should "have equals root nodes: with odd leafs number" in {
-    val blocks: Seq[BlockView] = Seq("AB", "RA", "CA", "DA", "BRA")
+    val blocks: Seq[BlockView] = Seq(
+      "AB".getBytes(),
+      "RA".getBytes(),
+      "CA".getBytes(),
+      "DA".getBytes(),
+      "BRA".getBytes()
+    )
+
     val first = MerkleTree(blocks, sha1Digest(_))
     val second = MerkleTree(blocks, sha1Digest(_))
 
@@ -25,8 +38,21 @@ class MerkleTreeSha1Spec extends UnitSpec {
   }
 
   it should "have different root nodes: with odd leafs number" in {
-    val firstInput: Seq[BlockView] = Seq("AB", "RA", "CA", "DA", "BRA")
-    val secondInput: Seq[BlockView] = Seq("AB", "RA", "CA", "DA", "BRA!")
+    val firstInput: Seq[BlockView] = Seq(
+      "AB".getBytes(),
+      "RA".getBytes(),
+      "CA".getBytes(),
+      "DA".getBytes(),
+      "BRA".getBytes()
+    )
+
+    val secondInput: Seq[BlockView] = Seq(
+      "AB".getBytes(),
+      "RA".getBytes(),
+      "CA".getBytes(),
+      "DA".getBytes(),
+      "BRA!".getBytes()
+    )
     val first = MerkleTree(firstInput, sha1Digest(_))
     val second = MerkleTree(secondInput, sha1Digest(_))
 
@@ -63,8 +89,20 @@ class MerkleTreeSha1Spec extends UnitSpec {
   }
 
   it should "have different root nodes" in {
-    val firstInput: Seq[BlockView] = Seq("1", "2", "3", "4")
-    val secondInput: Seq[BlockView] = Seq("1", "2", "3", "5")
+    val firstInput: Seq[BlockView] = Seq(
+      "1".getBytes(),
+      "2".getBytes(),
+      "3".getBytes(),
+      "4".getBytes()
+    )
+
+    val secondInput: Seq[BlockView] = Seq(
+      "1".getBytes(),
+      "2".getBytes(),
+      "3".getBytes(),
+      "5".getBytes()
+    )
+
     val first = MerkleTree(firstInput, sha1Digest(_))
     val second = MerkleTree(secondInput, sha1Digest(_))
 
