@@ -159,4 +159,24 @@ class MerkleTreeArbitraryDigestSpec extends UnitSpec {
     getRootValue(first) should not be getRootValue(second)
   }
 
+  it should "have equals root nodes with GZip Base64 string" in {
+    val digest = "SHA-224"
+
+    import com.twitter.bijection._
+    val converter = Bijection[GZippedBase64String, Array[Byte]](_)
+    val gZippedBytes: Array[Byte] =
+      converter(GZippedBase64String("H4sIAAAAAAAAAEtUKC4pysxLV8hPU0jOSCxKTC5JLSoGAOP+cfkWAAAA"))
+
+    val blocks: Seq[BlockView] = Seq(
+      leaf("Test0", digest),
+      leaf("Test1", digest),
+      gZippedBytes
+    )
+
+    val first = MerkleTree(blocks, digest)
+    val second = MerkleTree(blocks, digest)
+
+    getRootValue(first) should be(getRootValue(second))
+  }
+
 }
