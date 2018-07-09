@@ -13,11 +13,12 @@ The whole picture:
 ```scala
   import com.github.merkle.conversion.Conversion._
   
+  // Anything convertible to a sequence of bytes, e.g. protobuf/avro/parquet 
   val leaf1 = leaf("1", "MD5")
   val leaf2 = "c81e728d9d4c2f636f067f89cc14862c"
   val leaf3 = "3" getBytes
-  val leaf4 = Array[Byte](59, 66, 1, 55)
-  
+  val leaf4 = Array[Byte](59, 66, 1, 55) 
+    
   val leafs: Seq[BlockView] = Seq(leaf1, leaf2, leaf3, leaf4)
   
   val tree = MerkleTree(leafs, "MD5")
