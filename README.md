@@ -4,6 +4,7 @@ Merkle trees are typically implemented as binary trees where each non-leaf node 
 The leaves can either be the data itself or a hash/signature of the data.
 
 [![Build Status](https://travis-ci.org/arukavytsia/merkle-tree.svg)](https://travis-ci.org/arukavytsia/merkle-tree)
+[![Test Coverage](https://codecov.io/gh/arukavytsia/merkle-tree/branch/master/graphs/badge.svg)](https://codecov.io/gh/arukavytsia/merkle-tree/?branch=master)
 [![License](https://img.shields.io/badge/license-GNU-green.svg)](https://github.com/arukavytsia/merkle-tree/blob/master/LICENSE)
 
 ## API
